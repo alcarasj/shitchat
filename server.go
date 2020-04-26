@@ -11,7 +11,7 @@ import (
     "github.com/gin-gonic/gin"
 )
 
-// User entry is deleted after 24 hours of inactivity at associated IP - this is to ensure
+// Too lazy to set up auth, user expiry will do for now.
 const USER_TTL_SECONDS = 86400
 
 type User struct {
@@ -53,7 +53,7 @@ func createUser(c *gin.Context) {
             clientIP := c.ClientIP()
             user := User{ ip: clientIP, lastSeen: time.Now().Unix(), port: clientPort }
             directory[username] = user
-            fmt.Printf("%s registered with username %s.", clientIP, username)
+            fmt.Println("%s registered with username %s.", clientIP, username)
             c.JSON(http.StatusOK, gin.H{ "message": "You have successfully registered as " + username + "." })
         } else {
             c.JSON(http.StatusConflict, gin.H{ 

@@ -1,8 +1,16 @@
-server: 
-	go run server.go
+.PHONY: build directory peer peers-macos
 
-client:
-	go run client.go
+build:
+	go build -o ./bin/directory -v ./directory
+	go build -o ./bin/peer -v ./peer
 
-spawn-clients:
-	
+directory: 
+	go run directory/directory.go
+
+peer:
+	go run peer/peer.go -username=peerone -port=3000
+
+peers-macos:
+	osascript -e 'tell app "Terminal" to do script "cd ~/Code/shitchat && go run peer.go -username=peerone -port=3000"'
+	osascript -e 'tell app "Terminal" to do script "cd ~/Code/shitchat && go run peer.go -username=peertwo -port=3001"'
+	osascript -e 'tell app "Terminal" to do script "cd ~/Code/shitchat && go run peer.go -username=peerthree -port=3002"'

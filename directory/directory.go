@@ -45,7 +45,7 @@ func createUser(c *gin.Context) {
         })
     } else if usernameIsValid := re.MatchString(username); !usernameIsValid && username != "" {
         c.JSON(http.StatusConflict, gin.H{ 
-            "message": "Username is required and must only contain alphanumeric characters.",
+            "message": "Username must only contain alphanumeric characters.",
         })
     } else {
         clientPortStr, valueExists := c.GetPostForm("port")
@@ -98,6 +98,7 @@ func updateUser(c *gin.Context) {
 func main() {
     var port string
     flag.StringVar(&port, "port", "8080", "Port number to use. Defaults to 8080.")
+    flag.Parse()
 
     if port == "" {
         log.Fatal("Port must be set.")
